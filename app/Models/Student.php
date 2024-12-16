@@ -21,7 +21,6 @@ class Student extends Model
         'longitude',
         'latitude',
         'user_id',
-        'status',
     ];
 
 
@@ -33,7 +32,7 @@ class Student extends Model
 
     public function trips (){
         
-        return $this->belongsToMany(Trip::class);
+        return $this->belongsToMany(Trip::class)->withPivot('status');
     }
 
 

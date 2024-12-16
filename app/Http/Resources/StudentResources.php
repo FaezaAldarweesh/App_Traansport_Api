@@ -22,7 +22,6 @@ class StudentResources extends JsonResource
             'student longitude' => $this->longitude,
             'student latitude' => $this->latitude,
             'student parent' => $this->user->name,
-            'student status' => $this->status ?? 'attendee',
         ];
     }
 }

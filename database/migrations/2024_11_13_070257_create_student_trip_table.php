@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained()->onDelete('cascade');
             $table->foreignId('trip_id')->constrained()->onDelete('cascade');
+            $table->enum('status',['attendee','absent','Moved_to','Transferred_from'])->default('attendee');
             $table->timestamps();
             $table->softDeletes();
         });

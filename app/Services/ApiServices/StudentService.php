@@ -45,18 +45,12 @@ class StudentService {
     /**
      * method to update student alraedy exist
      * @param  $data
-     * @param   $student_id
+     * @param  Student $student
      * @return /Illuminate\Http\JsonResponse if have an error
      */
-    public function update_student($data, $student_id){
+    public function update_student($data,Student $student){
         try {  
-            $student = Student::find($student_id);
-            if(!$student){
-                throw new \Exception('الطالب المطلوب غير موجود');
-            }
-            if (isset($data['first_name']) && isset($data['last_name'])) {
-                $student->name = ['first_name' => $data['first_name'], 'last_name' => $data['last_name']];
-            }
+            $student->name = $data['name'] ?? $student->name;
             $student->father_phone = $data['father_phone'] ?? $student->father_phone;
             $student->mather_phone = $data['mather_phone'] ?? $student->mather_phone;
             $student->longitude = $data['longitude'] ?? $student->longitude;
@@ -66,42 +60,19 @@ class StudentService {
 
             $student->save(); 
             return $student;
-        }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);   
         }catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة التعديل على الطالب', 400);}
     }
     //========================================================================================================================
     /**
-     * method to show studen alraedy exist
-     * @param  $studen_id
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function view_Student($studen_id) {
-        try {    
-            $studen = Student::find($studen_id);
-            if(!$studen){
-                throw new \Exception('الطالب المطلوب غير موجود');
-            }
-            return $studen;
-        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة عرض الطالب', 400);}
-    }
-    //========================================================================================================================
-    /**
      * method to soft delete student alraedy exist
-     * @param  $student_id
+     * @param  Student $student
      * @return /Illuminate\Http\JsonResponse if have an error
      */
-    public function delete_student($student_id)
+    public function delete_student(Student $student)
     {
         try {  
-            $student = Student::find($student_id);
-            if(!$student){
-                throw new \Exception('الطالب المطلوب غير موجود');
-            }
-
             $student->delete();
             return true;
-        }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة حذف الطالب', 400);}
     }
     //========================================================================================================================

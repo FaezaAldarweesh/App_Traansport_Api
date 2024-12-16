@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ApiController;
 
+use App\Models\Student;
 use App\Services\ApiServices\StudentService;
 use App\Http\Controllers\ApiController\Controller;
 use App\Http\Traits\ApiResponseTrait;
@@ -50,18 +51,12 @@ class StudentController extends Controller
     //===========================================================================================================================
     /**
      * method to show student alraedy exist
-     * @param  $student_id
+     * @param  Student $student
      * @return /Illuminate\Http\JsonResponse
      */
-    public function show($student_id)
+    public function show(Student $student)
     {
-        $student = $this->studentservices->view_student($student_id);
-
-        // In case error messages are returned from the services section 
-        if ($student instanceof \Illuminate\Http\JsonResponse) {
-            return $student;
-        }
-            return $this->success_Response(new StudentResources($student), "تمت عملية عرض الطالب بنجاح", 200);
+        return $this->success_Response(new StudentResources($student), "تمت عملية عرض الطالب بنجاح", 200);
     }
     //===========================================================================================================================
     /**
@@ -70,31 +65,21 @@ class StudentController extends Controller
      * @param  $student_id
      * @return /Illuminate\Http\JsonResponse
      */
-    public function update(Update_Student_Request $request, $student_id)
+    public function update(Update_Student_Request $request,Student $student)
     {
-        $student = $this->studentservices->update_Student($request->validated(), $student_id);
-
-        // In case error messages are returned from the services section 
-        if ($student instanceof \Illuminate\Http\JsonResponse) {
-            return $student;
-        }
-            return $this->success_Response(new StudentResources($student), "تمت عملية التعديل على الطالب بنجاح", 200);
+        $student = $this->studentservices->update_Student($request->validated(), $student);
+        return $this->success_Response(new StudentResources($student), "تمت عملية التعديل على الطالب بنجاح", 200);
     }
     //===========================================================================================================================
     /**
      * method to soft delete student alraedy exist
-     * @param  $student_id
+     * @param  Student $student
      * @return /Illuminate\Http\JsonResponse
      */
-    public function destroy($student_id)
+    public function destroy(Student $student)
     {
-        $student = $this->studentservices->delete_student($student_id);
-
-        // In case error messages are returned from the services section 
-        if ($student instanceof \Illuminate\Http\JsonResponse) {
-            return $student;
-        }
-            return $this->success_Response(null, "تمت عملية إضافة الطالب للأرشيف بنجاح", 200);
+        $student = $this->studentservices->delete_student($student);
+        return $this->success_Response(null, "تمت عملية إضافة الطالب للأرشيف بنجاح", 200);
     }
     //========================================================================================================================
     /**

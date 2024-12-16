@@ -19,7 +19,6 @@ return new class extends Migration
             $table->decimal('longitude', 10, 8);
             $table->decimal('latitude', 10, 8);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('status',['attendee','absent','Moved_to','Transferred_from'])->default('attendee');
             $table->timestamps();
             $table->softDeletes();
         });

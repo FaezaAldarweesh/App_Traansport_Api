@@ -34,13 +34,13 @@ class Store_Student_Request extends FormRequest
         ];
     }
     //===========================================================================================================================
-    // protected function failedValidation(Validator $validator){
-    //     throw new HttpResponseException(response()->json([
-    //         'status' => 'error 422',
-    //         'message' => 'فشل التحقق يرجى التأكد من المدخلات',
-    //         'errors' => $validator->errors(),
-    //     ]));
-    // }
+    protected function failedValidation(Validator $validator){
+        throw new HttpResponseException(response()->json([
+            'status' => 'error 422',
+            'message' => 'فشل التحقق يرجى التأكد من المدخلات',
+            'errors' => $validator->errors(),
+        ]));
+    }
     //===========================================================================================================================
     protected function passedValidation()
     {
@@ -68,15 +68,15 @@ class Store_Student_Request extends FormRequest
             'required' => ' :attribute مطلوب',
             'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
             'name.regex' => 'يجب أن يحوي  :attribute على أحرف فقط',
-            'name.max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',
             'name.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
-            'max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',
+            'name.max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',
             'min' => 'الحد الأدنى لطول :attribute على الأقل هو 10 حرف',
-            'integer' => 'يجب أن يكون الحقل :attribute من نمط int',
-            'exists' => 'يجب أن يكون :attribute موجودا مسبقا',
+            'max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',
             'numeric' => 'يجب أن يكون :attribute رقماً',
             'latitude.between'  => ':attribute يجب أن يكون بين -90 و 90',
             'longitude.between'  => ':attribute يجب أن يكون بين -180 و 180',
+            'integer' => 'يجب أن يكون الحقل :attribute من نمط int',
+            'exists' => 'يجب أن يكون :attribute موجودا مسبقا',
         ];
     }
 }
