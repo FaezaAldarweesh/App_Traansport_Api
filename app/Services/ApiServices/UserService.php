@@ -120,7 +120,6 @@ class UserService {
             if(!$user){
                 throw new \Exception('المستخدم المطلوب غير موجود');
             }
-            $user->students()->forceDelete();            
             return $user->forceDelete();
         }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);   
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة حذف أرشيف المستخدميين', 400);}

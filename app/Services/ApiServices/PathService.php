@@ -61,6 +61,7 @@ class PathService {
     public function delete_path(Path $path)
     {
         try {  
+            $path->stations()->delete();
             $path->delete();
             return true;
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة حذف المسار', 400);}
@@ -91,7 +92,6 @@ class PathService {
                 throw new \Exception('المسار المطلوب غير موجود');
             }
             $path->stations()->restore();
-            $path->trips()->restore();
             return $path->restore();
         }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);      
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة إستعادة المسار', 400);
@@ -110,8 +110,6 @@ class PathService {
             if(!$path){
                 throw new \Exception('المسار المطلوب غير موجود');
             }
-            $path->stations()->forceDelete();
-            $path->trips()->forceDelete();
             return $path->forceDelete();
         }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);   
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة حذف أرشيف المسار', 400);}
