@@ -8,6 +8,7 @@ use App\Http\Traits\ApiResponseTrait;
 use App\Http\Resources\DriverResources;
 use App\Http\Requests\Driver_Request\Store_Driver_Request;
 use App\Http\Requests\Driver_Request\Update_Driver_Request;
+use App\Models\Driver;
 
 class DriverController extends Controller
 {
@@ -50,51 +51,35 @@ class DriverController extends Controller
     //===========================================================================================================================
     /**
      * method to show drivers alraedy exist
-     * @param  $drivers_id
+     * @param  Driver $driver
      * @return /Illuminate\Http\JsonResponse
      */
-    public function show($drivers_id)
+    public function show(Driver $driver)
     {
-        $drivers = $this->driverservices->view_Driver($drivers_id);
-
-        // In case error messages are returned from the services section 
-        if ($drivers instanceof \Illuminate\Http\JsonResponse) {
-            return $drivers;
-        }
-            return $this->success_Response(new DriverResources($drivers), "تمت عملية عرض السائق بنجاح", 200);
+        return $this->success_Response(new DriverResources($driver), "تمت عملية عرض السائق بنجاح", 200);
     }
     //===========================================================================================================================
     /**
      * method to update driver alraedy exist
      * @param  Update_Driver_Request $request
-     * @param  $driverroom_id
+     * @param  Driver $driver
      * @return /Illuminate\Http\JsonResponse
      */
-    public function update(Update_Driver_Request $request, $driverRoom_id)
+    public function update(Update_Driver_Request $request, Driver $driver)
     {
-        $driver = $this->driverservices->update_Driver($request->validated(), $driverRoom_id);
-
-        // In case error messages are returned from the services section 
-        if ($driver instanceof \Illuminate\Http\JsonResponse) {
-            return $driver;
-        }
-            return $this->success_Response(new DriverResources($driver), "تمت عملية التعديل على السائق بنجاح", 200);
+        $driver = $this->driverservices->update_Driver($request->validated(), $driver);
+        return $this->success_Response(new DriverResources($driver), "تمت عملية التعديل على السائق بنجاح", 200);
     }    
     //===========================================================================================================================
     /**
      * method to soft delete driver alraedy exist
-     * @param  $driver_id
+     * @param  Driver $driver
      * @return /Illuminate\Http\JsonResponse
      */
-    public function destroy($driver_id)
+    public function destroy(Driver $driver)
     {
-        $driver = $this->driverservices->delete_driver($driver_id);
-
-        // In case error messages are returned from the services section 
-        if ($driver instanceof \Illuminate\Http\JsonResponse) {
-            return $driver;
-        }
-            return $this->success_Response(null, "تمت عملية إضافة السائق للأرشيف بنجاح", 200);
+        $driver = $this->driverservices->delete_driver($driver);
+        return $this->success_Response(null, "تمت عملية إضافة السائق للأرشيف بنجاح", 200);
     }
     //========================================================================================================================
     /**

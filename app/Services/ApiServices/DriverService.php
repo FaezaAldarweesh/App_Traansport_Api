@@ -30,7 +30,7 @@ class DriverService {
     public function create_Driver($data) {
         try {
             $driver = new Driver();
-            $driver->name = ['first_name' => $data['first_name'], 'last_name' => $data['last_name']];
+            $driver->name = $data['name'];
             $driver->phone = $data['phone'];
             $driver->location = $data['location'];
             
@@ -43,60 +43,31 @@ class DriverService {
     /**
      * method to update driver alraedy exist
      * @param  $data
-     * @param  $driver_id
+     * @param  Driver $driver
      * @return /Illuminate\Http\JsonResponse if have an error
      */
-    public function update_Driver($data, $driver_id){
-        try {  
-            $driver = Driver::find($driver_id);
-            if(!$driver){
-                throw new \Exception('السائق المطلوب غير موجود');
-            }
-            if (isset($data['first_name']) && isset($data['last_name'])) {
-                $driver->name = ['first_name' => $data['first_name'], 'last_name' => $data['last_name']];
-            }
+    public function update_Driver($data, Driver $driver){
+        try { 
+            $driver->name = $data['name'] ?? $driver->name;
             $driver->phone = $data['phone'] ?? $driver->phone;
             $driver->location = $data['location'] ?? $driver->location;
             
             $driver->save(); 
             return $driver;
 
-        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
         }catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة التعديل على السائق', 400);}
     }
     //========================================================================================================================
     /**
-     * method to show driver alraedy exist
-     * @param  $driver_id
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function view_Driver($driver_id) {
-        try {    
-            $driver = Driver::find($driver_id);
-            if(!$driver){
-                throw new \Exception('السائق المطلوب غير موجود');
-            }
-            return $driver;
-        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة عرض السائق', 400);}
-    }
-    //========================================================================================================================
-    /**
      * method to soft delete driver alraedy exist
-     * @param  $driver_id
+     * @param  Driver $driver)
      * @return /Illuminate\Http\JsonResponse if have an error
      */
-    public function delete_driver($driver_id)
+    public function delete_driver(Driver $driver)
     {
         try {  
-            $driver = Driver::find($driver_id);
-            if(!$driver){
-                throw new \Exception('السائق المطلوب غير موجود');
-            }
-
             $driver->delete();
             return true;
-        }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة حذف السائق', 400);}
     }
     //========================================================================================================================

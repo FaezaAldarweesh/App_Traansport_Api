@@ -31,13 +31,13 @@ class Store_Driver_Request extends FormRequest
         ];
     }
     //===========================================================================================================================
-    // protected function failedValidation(Validator $validator){
-    //     throw new HttpResponseException(response()->json([
-    //         'status' => 'error 422',
-    //         'message' => 'فشل التحقق يرجى التأكد من المدخلات',
-    //         'errors' => $validator->errors(),
-    //     ]));
-    // }
+    protected function failedValidation(Validator $validator){
+        throw new HttpResponseException(response()->json([
+            'status' => 'error 422',
+            'message' => 'فشل التحقق يرجى التأكد من المدخلات',
+            'errors' => $validator->errors(),
+        ]));
+    }
     //===========================================================================================================================
     protected function passedValidation()
     {
@@ -60,14 +60,14 @@ class Store_Driver_Request extends FormRequest
     {
         return [
             'required' => ' :attribute مطلوب',
-            'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
-            'name.max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',
-            'name.min' => 'الحد الأدنى لطول :attribute على الأقل هو 4 حرف',
-            'phone.max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',
-            'phone.min' => 'الحد الأدنى لطول :attribute على الأقل هو 10 حرف',
-            'location.min' => 'الحد الأدنى لطول :attribute على الأقل هو 5 حرف',
-            'phon.regex' => 'يجب أن يحوي  :attribute على أرقام فقط',
             'name.regex' => 'يجب أن يحوي  :attribute على أحرف فقط',
+            'name.min' => 'الحد الأدنى لطول :attribute على الأقل هو 4 حرف',
+            'name.max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',
+            'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
+            'phone.min' => 'الحد الأدنى لطول :attribute على الأقل هو 10 حرف',
+            'phone.max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',
+            'phone.regex' => 'يجب أن يحوي  :attribute على أرقام فقط',
+            'location.min' => 'الحد الأدنى لطول :attribute على الأقل هو 5 حرف',
         ];
     }
 }
