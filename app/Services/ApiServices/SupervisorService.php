@@ -28,7 +28,7 @@ class SupervisorService {
     public function create_Supervisor($data) {
         try {
             $Supervisor = new Supervisor();
-            $Supervisor->name = ['first_name' => $data['first_name'], 'last_name' => $data['last_name']];
+            $Supervisor->name =  $data['name'];
             $Supervisor->username = $data['username'];
             $Supervisor->password = $data['password'];
             $Supervisor->location = $data['location'];
@@ -43,18 +43,12 @@ class SupervisorService {
     /**
      * method to update Supervisor alraedy exist
      * @param  $data
-     * @param  $Supervisor_id
+     * @param  Supervisor $supervisor
      * @return /Illuminate\Http\JsonResponse if have an error
      */
-    public function update_Supervisor($data,$Supervisor_id){
+    public function update_Supervisor($data,Supervisor $Supervisor){
         try {  
-            $Supervisor = Supervisor::find($Supervisor_id);
-            if(!$Supervisor){
-                throw new \Exception('المشرف المطلوب غير موجود');
-            }
-            if (isset($data['first_name']) && isset($data['last_name'])) {
-                $Supervisor->name = ['first_name' => $data['first_name'], 'last_name' => $data['last_name']];
-            }
+            $Supervisor->name =  $data['name'] ?? $Supervisor->name;
             $Supervisor->username = $data['username'] ?? $Supervisor->username;
             $Supervisor->password = $data['password'] ?? $Supervisor->password;  
             $Supervisor->location = $data['location'] ?? $Supervisor->location;  
@@ -62,24 +56,7 @@ class SupervisorService {
 
             $Supervisor->save();  
             return $Supervisor;
-        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
         }catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة التعديل على المشرف', 400);}
-    }
-    //========================================================================================================================
-    /**
-     * method to show Supervisor alraedy exist
-     * @param  $Supervisor_id
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function view_Supervisor($Supervisor_id) {
-        try {    
-            $Supervisor = Supervisor::find($Supervisor_id);
-            if(!$Supervisor){
-                throw new \Exception('المشرف المطلوب غير موجود');
-            }
-            return $Supervisor;
-        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة عرض المشرف', 400);}
     }
     //========================================================================================================================
     /**
@@ -87,17 +64,11 @@ class SupervisorService {
      * @param  Supervisor $Supervisor
      * @return /Illuminate\Http\JsonResponse if have an error
      */
-    public function delete_Supervisor($Supervisor_id)
+    public function delete_Supervisor(Supervisor $Supervisor)
     {
         try {  
-            $Supervisor = Supervisor::find($Supervisor_id);
-            if(!$Supervisor){
-                throw new \Exception('المشرف المطلوب غير موجود');
-            }
-
             $Supervisor->delete();
             return true;
-        }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة حذف المشرف', 400);}
     }
     //========================================================================================================================

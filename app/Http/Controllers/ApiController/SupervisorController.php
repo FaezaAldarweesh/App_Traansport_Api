@@ -8,6 +8,7 @@ use App\Http\Traits\ApiResponseTrait;
 use App\Http\Resources\SupervisorResources;
 use App\Http\Requests\Supervisor_Rqeuests\Store_Supervisor_Request;
 use App\Http\Requests\Supervisor_Rqeuests\Update_Supervisor_Request;
+use App\Models\Supervisor;
 
 class SupervisorController extends Controller
 {
@@ -53,32 +54,21 @@ class SupervisorController extends Controller
      * @param  $supervisor_id
      * @return /Illuminate\Http\JsonResponse
      */
-    public function show($supervisor_id)
+    public function show(Supervisor $supervisor)
     {
-        $supervisor = $this->supervisorservices->view_supervisor($supervisor_id);
-
-        // In case error messages are returned from the services section 
-        if ($supervisor instanceof \Illuminate\Http\JsonResponse) {
-            return $supervisor;
-        }
-            return $this->success_Response(new SupervisorResources($supervisor), "تمت عملية عرض المشرف بنجاح", 200);
+        return $this->success_Response(new SupervisorResources($supervisor), "تمت عملية عرض المشرف بنجاح", 200);
     }
     //===========================================================================================================================
     /**
      * method to update supervisor alraedy exist
      * @param  Update_Supervisor_Request $request
-     * @param  $supervisor_id
+     * @param  Supervisor $supervisor
      * @return /Illuminate\Http\JsonResponse
      */
-    public function update(Update_Supervisor_Request $request, $supervisor_id)
+    public function update(Update_Supervisor_Request $request,Supervisor $supervisor)
     {
-        $supervisor = $this->supervisorservices->update_Supervisor($request->validated(), $supervisor_id);
-        
-        // In case error messages are returned from the services section 
-        if ($supervisor instanceof \Illuminate\Http\JsonResponse) {
-            return $supervisor;
-        }
-            return $this->success_Response(new SupervisorResources($supervisor), "تمت عملية التعديل على المشرف بنجاح", 200);
+        $supervisor = $this->supervisorservices->update_Supervisor($request->validated(), $supervisor);
+        return $this->success_Response(new SupervisorResources($supervisor), "تمت عملية التعديل على المشرف بنجاح", 200);
     }
     //===========================================================================================================================
     /**
@@ -86,15 +76,10 @@ class SupervisorController extends Controller
      * @param  $supervisor_id
      * @return /Illuminate\Http\JsonResponse
      */
-    public function destroy($supervisor_id)
+    public function destroy(Supervisor $supervisor)
     {
-        $supervisor = $this->supervisorservices->delete_supervisor($supervisor_id);
-
-        // In case error messages are returned from the services section 
-        if ($supervisor instanceof \Illuminate\Http\JsonResponse) {
-            return $supervisor;
-        }
-            return $this->success_Response(null, "تمت عملية إضافة المشرف للأرشيف بنجاح", 200);
+        $supervisor = $this->supervisorservices->delete_supervisor($supervisor);
+        return $this->success_Response(null, "تمت عملية إضافة المشرف للأرشيف بنجاح", 200);
     }
     //========================================================================================================================
     /**

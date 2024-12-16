@@ -33,13 +33,13 @@ class Store_Supervisor_Request extends FormRequest
         ];
     }
     //===========================================================================================================================
-    // protected function failedValidation(Validator $validator){
-    //     throw new HttpResponseException(response()->json([
-    //         'status' => 'error 422',
-    //         'message' => 'فشل التحقق يرجى التأكد من المدخلات',
-    //         'errors' => $validator->errors(),
-    //     ]));
-    // }
+    protected function failedValidation(Validator $validator){
+        throw new HttpResponseException(response()->json([
+            'status' => 'error 422',
+            'message' => 'فشل التحقق يرجى التأكد من المدخلات',
+            'errors' => $validator->errors(),
+        ]));
+    }
     //===========================================================================================================================
     protected function passedValidation()
     {
@@ -67,13 +67,13 @@ class Store_Supervisor_Request extends FormRequest
             'name.regex' => 'يجب أن يحوي  :attribute على أحرف فقط',
             'name.min' => 'الحد الأدنى لطول :attribute على الأقل هو 2 حرف',
             'name.max' => 'الحد الأقصى لطول  :attribute هو 50 حرف',            
+            'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
             'username.min' => 'الحد الأدنى لطول :attribute على الأقل هو 6 حرف',
             'username.max' => 'الحد الأقصى لطول :attribute على الأقل هو 50 حرف',
-            'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
             'password.min' => 'الحد الأدنى لطول :attribute على الأقل هو 8 محرف',
+            'location.min' => 'الحد الأدنى لطول :attribute على الأقل هو 5 حرف',
             'phone.max' => 'الحد الأقصى لطول  :attribute هو 10 حرف',
             'phone.min' => 'الحد الأدنى لطول :attribute على الأقل هو 10 حرف',
-            'location.min' => 'الحد الأدنى لطول :attribute على الأقل هو 5 حرف',
             'phone.regex' => 'يجب أن يحوي  :attribute على أرقام فقط',
         ];
     }

@@ -35,12 +35,6 @@ class Supervisor extends Model
     protected $casts = [
         'password' => 'hashed'
     ];
-
-    // public function setNameAttribute($value)
-    // {
-    //     $this->attributes['name'] = $value['first_name'] . ' ' . $value['last_name'];
-    // }
-
     public function trips (){
         
         return $this->belongsToMany(Trip::class);
