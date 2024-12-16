@@ -42,57 +42,27 @@ class PathService {
     /**
      * method to update path alraedy exist
      * @param  $data
-     * @param  $path_id
+     * @param  Path $path
      * @return /Illuminate\Http\JsonResponse if have an error
      */
-    public function update_path($data, $path_id){
+    public function update_path($data, Path $path){
         try {  
-            $path = Path::find($path_id);
-            if(!$path){
-                throw new \Exception('المسار المطلوب غير موجود');
-            }
             $path->name = $data['name'] ?? $path->name;
-
             $path->save(); 
             return $path;
-
-        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
         }catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة التعديل على المسار', 400);}
     }
     //========================================================================================================================
     /**
-     * method to show path alraedy exist
-     * @param  $path_id
-     * @return /Illuminate\Http\JsonResponse if have an error
-     */
-    public function view_Path($path_id) {
-        try {    
-            $path = Path::find($path_id);
-            if(!$path){
-                throw new \Exception('المسار المطلوب غير موجود');
-            }
-            return $path;
-        } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
-        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة عرض المسار', 400);}
-    }
-    //========================================================================================================================
-    /**
      * method to soft delete path alraedy exist
-     * @param  $path_id
+     * @param  Path $path
      * @return /Illuminate\Http\JsonResponse if have an error
      */
-    public function delete_path($path_id)
+    public function delete_path(Path $path)
     {
         try {  
-            $path = Path::find($path_id);
-            if(!$path){
-                throw new \Exception('المسار المطلوب غير موجود');
-            }
-            $path->stations()->delete();
-            $path->trips()->delete();
             $path->delete();
             return true;
-        }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);
         } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('حدث خطأ أثناء محاولة حذف المسار', 400);}
     }
     //========================================================================================================================

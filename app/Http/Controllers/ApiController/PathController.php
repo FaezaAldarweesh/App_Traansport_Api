@@ -8,6 +8,7 @@ use App\Http\Resources\PathResources;
 use App\Http\Traits\ApiResponseTrait;
 use App\Http\Requests\Path_Request\Store_Path_Request;
 use App\Http\Requests\Path_Request\Update_Path_Request;
+use App\Models\Path;
 
 class PathController extends Controller
 {
@@ -50,17 +51,11 @@ class PathController extends Controller
     //===========================================================================================================================
     /**
      * method to show path alraedy exist
-     * @param  $path_id
+     * @param  Path $path
      * @return /Illuminate\Http\JsonResponse
      */
-    public function show($path_id)
+    public function show(Path $path)
     {
-        $path = $this->pathservices->view_path($path_id);
-
-        // In case error messages are returned from the services section 
-        if ($path instanceof \Illuminate\Http\JsonResponse) {
-            return $path;
-        }
             return $this->success_Response(new PathResources($path), "تمت عملية عرض المسار بنجاح", 200);
     }
     //===========================================================================================================================
@@ -70,31 +65,21 @@ class PathController extends Controller
      * @param  $path_id
      * @return /Illuminate\Http\JsonResponse
      */
-    public function update(Update_Path_Request $request, $path_id)
+    public function update(Update_Path_Request $request, Path $path)
     {
-        $path = $this->pathservices->update_Path($request->validated(), $path_id);
-
-        // In case error messages are returned from the services section 
-        if ($path instanceof \Illuminate\Http\JsonResponse) {
-            return $path;
-        }
-            return $this->success_Response(new PathResources($path), "تمت عملية التعديل على المسار بنجاح", 200);
+        $path = $this->pathservices->update_Path($request->validated(), $path);
+        return $this->success_Response(new PathResources($path), "تمت عملية التعديل على المسار بنجاح", 200);
     }
     //===========================================================================================================================
     /**
      * method to soft delete path alraedy exist
-     * @param  $path_id
+     * @param  Path $path
      * @return /Illuminate\Http\JsonResponse
      */
-    public function destroy($path_id)
+    public function destroy(Path $path)
     {
-        $path = $this->pathservices->delete_path($path_id);
-
-        // In case error messages are returned from the services section 
-        if ($path instanceof \Illuminate\Http\JsonResponse) {
-            return $path;
-        }
-            return $this->success_Response(null, "تمت عملية إضافة المسار للأرشيف بنجاح", 200);
+        $path = $this->pathservices->delete_path($path);
+        return $this->success_Response(null, "تمت عملية إضافة المسار للأرشيف بنجاح", 200);
     }
     //========================================================================================================================
     /**

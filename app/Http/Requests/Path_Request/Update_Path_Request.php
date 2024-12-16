@@ -32,13 +32,13 @@ class Update_Path_Request extends FormRequest
         ];
     }
     //===========================================================================================================================
-    // protected function failedValidation(Validator $validator){
-    //     throw new HttpResponseException(response()->json([
-    //         'status' => 'error 422',
-    //         'message' => 'فشل التحقق يرجى التأكد من المدخلات',
-    //         'errors' => $validator->errors(),
-    //     ]));
-    // }
+    protected function failedValidation(Validator $validator){
+        throw new HttpResponseException(response()->json([
+            'status' => 'error 422',
+            'message' => 'فشل التحقق يرجى التأكد من المدخلات',
+            'errors' => $validator->errors(),
+        ]));
+    }
     //===========================================================================================================================
     protected function passedValidation()
     {
