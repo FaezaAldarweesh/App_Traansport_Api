@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('path_id')->constrained()->onDelete('cascade');
+            $table->boolean('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

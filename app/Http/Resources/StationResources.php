@@ -18,6 +18,7 @@ class StationResources extends JsonResource
             'station id' => $this->id,
             'station name' => $this->name, 
             'station path' => $this->path ? $this->path->name : null,
+            'station status' => $this->status == 0 ? 'لم يتم الوصول لها بعد' : 'تم الوصول إليها',
         ];
     }
 }

@@ -25,19 +25,22 @@ class Update_Station_Request extends FormRequest
      */
     public function rules(): array
     {
+        $station_id = $this->route('station');
+
         return [
-            'name' => 'sometimes|nullable|string|min:4|max:50',
+            'name' => ['sometimes','nullable','string','min:4','max:50',Rule::unique('stations', 'name')->ignore($station_id)],
             'path_id' => 'sometimes|nullable|integer|exists:paths,id',
+            'status' => 'sometimes|nullable|string|in:0,1',
         ];
     }
     //===========================================================================================================================
-    // protected function failedValidation(Validator $validator){
-    //     throw new HttpResponseException(response()->json([
-    //         'status' => 'error 422',
-    //         'message' => 'فشل التحقق يرجى التأكد من المدخلات',
-    //         'errors' => $validator->errors(),
-    //     ]));
-    // }
+    protected function failedValidation(Validator $validator){
+        throw new HttpResponseException(response()->json([
+            'status' => 'error 422',
+            'message' => 'فشل التحقق يرجى التأكد من المدخلات',
+            'errors' => $validator->errors(),
+        ]));
+    }
     //===========================================================================================================================
     protected function passedValidation()
     {
@@ -51,6 +54,7 @@ class Update_Station_Request extends FormRequest
         return [
             'name' => 'اسم الشعبة',
             'path_id' => 'اسم الصف',
+            'status'=> 'حالة المحطة',
         ];
     }
     //===========================================================================================================================
@@ -62,6 +66,8 @@ class Update_Station_Request extends FormRequest
             'min' => 'الحد الأدنى لطول :attribute على الأقل هو 4 حرف',
             'integer' => 'يجب أن يكون الحقل :attribute من نمط int',
             'exists' => 'يجب أن يكون :attribute موجودا مسبقا',
+            'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
+            'in' => 'يجب أن تكون قيمة الحقل :attribute إحدى القيم التالية : 0,1',
         ];
     }
 }

@@ -17,6 +17,7 @@ class Station extends Model
     protected $fillable = [
         'name',
         'path_id',
+        'status',
     ];
 
     public function path (){

@@ -25,18 +25,18 @@ class Store_Station_Request extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:4|max:50',
+            'name' => 'required|string|min:4|max:50|unique:stations,name',
             'path_id' => 'required|integer|exists:paths,id',
         ];
     }
     //===========================================================================================================================
-    // protected function failedValidation(Validator $validator){
-    //     throw new HttpResponseException(response()->json([
-    //         'status' => 'error 422',
-    //         'message' => 'فشل التحقق يرجى التأكد من المدخلات',
-    //         'errors' => $validator->errors(),
-    //     ]));
-    // }
+    protected function failedValidation(Validator $validator){
+        throw new HttpResponseException(response()->json([
+            'status' => 'error 422',
+            'message' => 'فشل التحقق يرجى التأكد من المدخلات',
+            'errors' => $validator->errors(),
+        ]));
+    }
     //===========================================================================================================================
     protected function passedValidation()
     {
@@ -62,6 +62,7 @@ class Store_Station_Request extends FormRequest
             'min' => 'الحد الأدنى لطول :attribute على الأقل هو 4 حرف',
             'integer' => 'يجب أن يكون الحقل :attribute من نمط int',
             'exists' => 'يجب أن يكون :attribute موجودا مسبقا',
+            'unique' => ':attribute  موجود سابقاً , يجب أن يكون :attribute غير مكرر',
         ];
     }
 }
