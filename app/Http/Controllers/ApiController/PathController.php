@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\ApiController;
 
-use App\Services\ApiServices\PathService;
-use App\Http\Controllers\ApiController\Controller;
+use App\Models\Path;
 use App\Http\Resources\PathResources;
 use App\Http\Traits\ApiResponseTrait;
+use App\Http\Resources\PathShowResources;
+use App\Services\ApiServices\PathService;
+use App\Http\Controllers\ApiController\Controller;
 use App\Http\Requests\Path_Request\Store_Path_Request;
 use App\Http\Requests\Path_Request\Update_Path_Request;
-use App\Models\Path;
 
 class PathController extends Controller
 {
@@ -56,7 +57,8 @@ class PathController extends Controller
      */
     public function show(Path $path)
     {
-            return $this->success_Response(new PathResources($path), "تمت عملية عرض المسار بنجاح", 200);
+        $path = Path::where('id' , '=' , $path->id)->with('stations')->first();
+        return $this->success_Response(new PathShowResources($path), "تمت عملية عرض المسار بنجاح", 200);
     }
     //===========================================================================================================================
     /**

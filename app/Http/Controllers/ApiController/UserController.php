@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResources;
 use App\Http\Traits\ApiResponseTrait;
+use App\Http\Resources\UserShowResources;
 use App\Services\ApiServices\UserService;
 use App\Http\Controllers\ApiController\Controller;
 use App\Http\Requests\User_Rqeuests\Store_User_Request;
@@ -58,7 +59,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return $this->success_Response(new UserResources($user), "تمت عملية عرض المستخدم بنجاح", 200);
+        $user = User::where('id' , '=' , $user->id)->with('students')->first();
+        return $this->success_Response(new UserShowResources($user), "تمت عملية عرض المستخدم بنجاح", 200);
     }
     //===========================================================================================================================
     /**

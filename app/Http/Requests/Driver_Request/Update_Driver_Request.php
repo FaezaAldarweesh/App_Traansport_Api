@@ -25,7 +25,7 @@ class Update_Driver_Request extends FormRequest
      */
     public function rules(): array
     {
-        $driver_id = $this->route(param: 'driver');
+        $driver_id = $this->route( 'driver');
 
         return [
             'name' => ['sometimes','nullable','string','min:4','max:50',Rule::unique('drivers', 'name')->ignore($driver_id)],

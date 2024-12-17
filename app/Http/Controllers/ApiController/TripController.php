@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\ApiController;
 
-use App\Services\ApiServices\TripService;
-use App\Http\Controllers\ApiController\Controller;
+use App\Models\Trip;
 use App\Http\Resources\TripResources;
 use App\Http\Traits\ApiResponseTrait;
+use App\Http\Resources\StudentResources;
+use App\Services\ApiServices\TripService;
+use App\Http\Controllers\ApiController\Controller;
 use App\Http\Requests\Trip_Request\Store_Trip_Request;
 use App\Http\Requests\Trip_Request\Update_Trip_Request;
 use App\Http\Requests\Trip_Request\Update_Status_Trip_Request;
-use App\Http\Resources\StudentResources;
 
 class TripController extends Controller
 {
@@ -60,15 +61,9 @@ class TripController extends Controller
      * @param  $Trip_id
      * @return /Illuminate\Http\JsonResponse
      */
-    public function show($Trip_id)
+    public function show(Trip $Trip)
     {
-        $Trip = $this->Tripservices->view_Trip($Trip_id);
-
-        // In case error messages are returned from the services section 
-        if ($Trip instanceof \Illuminate\Http\JsonResponse) {
-            return $Trip;
-        }
-            return $this->success_Response(new TripResources($Trip), "تمت عملية عرض الرحلة بنجاح", 200);
+        return $this->success_Response(new TripResources($Trip), "تمت عملية عرض الرحلة بنجاح", 200);
     }
     //===========================================================================================================================
     /**

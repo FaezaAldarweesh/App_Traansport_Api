@@ -37,13 +37,13 @@ class Store_Trip_Request extends FormRequest
         ];
     }
     // //===========================================================================================================================
-    // protected function failedValidation(Validator $validator){
-    //     throw new HttpResponseException(response()->json([
-    //         'status' => 'error 422',
-    //         'message' => 'فشل التحقق يرجى التأكد من المدخلات',
-    //         'errors' => $validator->errors(),
-    //     ]));
-    // }
+    protected function failedValidation(Validator $validator){
+        throw new HttpResponseException(response()->json([
+            'status' => 'error 422',
+            'message' => 'فشل التحقق يرجى التأكد من المدخلات',
+            'errors' => $validator->errors(),
+        ]));
+    }
     //===========================================================================================================================
     protected function passedValidation()
     {
@@ -56,13 +56,14 @@ class Store_Trip_Request extends FormRequest
     {
         return [
             'name' => 'اسم الرحلة',
-            'type' => 'نوع الرحلة',
             'path_id' => 'اسم المسار',
             'bus_id' => 'اسم الباص',
-            'status'=> 'حالة الرحلة',
-            'student' => 'اسم الطالب',
-            'supervisor' => 'اسم المشرفة',
-            'driver' => 'اسم السائق',
+            'students' => 'اسم الطالب',
+            'supervisors' => 'اسم المشرفة',
+            'drivers' => 'اسم السائق',
+            'students.*' => 'اسم الطالب',
+            'supervisors.*' => 'اسم المشرفة',
+            'drivers.*' => 'اسم السائق',
         ];
     }
     //===========================================================================================================================
@@ -72,17 +73,13 @@ class Store_Trip_Request extends FormRequest
         return [
             'required' => ' :attribute مطلوب',
             'name.in' => 'يأخذ الحقل :attribute فقط القيم إما ( delivery أو school )',
-            'type.in' => 'يأخذ الحقل :attribute فقط القيم إما ( go أو back )',
             'integer' => 'يجب أن يكون الحقل :attribute من نمط int',
             'path_id.exists' => ':attribute غير موجود , يجب أن يكون :attribute موجود ضمن المسارات المخزنة سابقا',
             'bus_id.exists' => ':attribute غير موجود , يجب أن يكون :attribute موجود ضمن الباصات المخزنة سابقا',
-            'boolean' => ' يجب أن تكون :attribute  قيمتها إما 1 أو 0',
             'array' => 'يجب أن يكون :attribute من نمط مصفوفة',
-            'trip.exists' => 'يجب أن يكون :attribute موجودا مسبقا',
-            'buses.*.id.exists' => 'يجب أن يكون :attribute موجودا مسبقا',
-            'students.*.id.exists' => 'يجب أن يكون :attribute موجودا مسبقا',
-            'supervisors.*.id.exists' => 'يجب أن يكون :attribute موجودا مسبقا',
-            'drivers.*.id.exists' => 'يجب أن يكون :attribute موجودا مسبقا',
+            'students.*.exists' => ':attribute غير موجود , يجب أن يكون :attribute موجود ضمن الطلاب المخزنة سابقا',
+            'supervisors.*.exists' => ':attribute غير موجود , يجب أن يكون :attribute موجود ضمن المشرفين المخزنة سابقا',
+            'drivers.*.exists' => ':attribute غير موجود , يجب أن يكون :attribute موجود ضمن السائقين المخزنين سابقا',
         ];
     }
 }
