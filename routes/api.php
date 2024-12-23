@@ -10,6 +10,7 @@ use App\Http\Controllers\ApiController\DriverController;
 use App\Http\Controllers\ApiController\StationController;
 use App\Http\Controllers\ApiController\StudentController;
 use App\Http\Controllers\ApiController\SupervisorController;
+use App\Http\Controllers\ApiController\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,4 +72,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('restore_trip/{trip_id}', [TripController::class, 'restore']);
     Route::delete('forceDelete_trip/{trip_id}', [TripController::class, 'forceDelete']);
     Route::patch('update_trip_status/{trip_id}', [TripController::class, 'update_trip_status']);
+
+    Route::apiResource( 'checkout',CheckoutController::class); 
+    Route::get('all_trashed_checkout', [CheckoutController::class, 'all_trashed_checkout']);
+    Route::get('restore_checkout/{checkout_id}', [CheckoutController::class, 'restore']);
+    Route::delete('forceDelete_checkout/{checkout_id}', [CheckoutController::class, 'forceDelete']);
 });

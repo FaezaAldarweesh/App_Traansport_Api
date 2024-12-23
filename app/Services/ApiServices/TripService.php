@@ -17,7 +17,7 @@ use App\Http\Traits\AllStudentsByTripTrait;
 
 class TripService {
     //trait customize the methods for successful , failed , authentecation responses.
-    use ApiResponseTrait,AllStudentsByTripTrait;
+    use ApiResponseTrait;
     /**
      * method to view all Trips 
      * @return /Illuminate\Http\JsonResponse if have an error

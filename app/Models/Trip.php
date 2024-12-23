@@ -44,4 +44,9 @@ class Trip extends Model
         
         return $this->belongsTo(Bus::class);
     }
+
+    public function checkouts (){
+        
+        return $this->hasMany(Checkout::class);
+    }
 }

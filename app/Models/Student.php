@@ -35,6 +35,11 @@ class Student extends Model
         return $this->belongsToMany(Trip::class)->withPivot('status');
     }
 
+    public function checkouts (){
+        
+        return $this->hasMany(Checkout::class);
+    }
+
 
     public function distanceFrom($latitude, $longitude)
     {
