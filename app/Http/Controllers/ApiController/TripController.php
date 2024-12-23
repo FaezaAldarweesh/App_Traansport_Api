@@ -148,69 +148,22 @@ class TripController extends Controller
 
     
 
-    // //===========================================================================================================================
-    // /**
-    //  * method to bind  trip with bus , student , supervisor , driver
-    //  * @param   Store_Bind_Request $request
-    //  * @return /Illuminate\Http\JsonResponse
-    //  */
-    // public function bind(Store_Bind_Request $request)
-    // {
-    //     $Trip = $this->Tripservices->bind($request->validated());
+    //========================================================================================================================
+    /**
+     * method to update on trip status
+     * @param   $Trip_id
+     * @return /Illuminate\Http\JsonResponse
+     */
+    public function update_trip_status(Update_Status_Trip_Request $request,$trip_id)
+    {
+        $trip = $this->Tripservices->update_trip_status($request->validated(),$trip_id);
 
-    //     // In case error messages are returned from the services section 
-    //     if ($Trip instanceof \Illuminate\Http\JsonResponse) {
-    //         return $Trip;
-    //     }
-    //         return $this->success_Response(new TripResources($Trip), "Trip created successfully.", 201);
-    // }
-    // //========================================================================================================================
-    // /**
-    //  * method to get all students sorte by distance
-    //  * @param   $Trip_id
-    //  * @param   $latitude
-    //  * @param   $longitude
-    //  * @return /Illuminate\Http\JsonResponse
-    //  */
-    // public function list_of_students($trip_id, $latitude, $longitude)
-    // {
-    //     $students = $this->Tripservices->list_of_students($trip_id, $latitude, $longitude);
-    //     return $this->success_Response(StudentResources::collection($students), "all students successfully", 200);
+        // In case error messages are returned from the services section 
+        if ($trip instanceof \Illuminate\Http\JsonResponse) {
+            return $trip;
+        }
+        return $this->success_Response(new TripResources($trip), "تمت عملية التعديل على حالة الرحلة بنجاح", 200);
 
-    // }  
-    // //========================================================================================================================
-    // /**
-    //  * method to update on trip status
-    //  * @param   $Trip_id
-    //  * @return /Illuminate\Http\JsonResponse
-    //  */
-    // public function update_trip_status(Update_Status_Trip_Request $request,$trip_id)
-    // {
-    //     $trip = $this->Tripservices->update_trip_status($request->validated(),$trip_id);
-
-    //     // In case error messages are returned from the services section 
-    //     if ($trip instanceof \Illuminate\Http\JsonResponse) {
-    //         return $trip;
-    //     }
-    //     return $this->success_Response(new TripResources($trip), "trip status update successfully", 200);
-
-    // }  
-    // //========================================================================================================================
-    //     /**
-    //  * method to update on trip status
-    //  * @param   $Trip_id
-    //  * @return /Illuminate\Http\JsonResponse
-    //  */
-    // public function All_students_belong_to_specific_trip($trip_id)
-    // {
-    //     $students = $this->Tripservices->All_students_belong_to_specific_trip($trip_id);
-
-    //     // In case error messages are returned from the services section 
-    //     if ($students instanceof \Illuminate\Http\JsonResponse) {
-    //         return $students;
-    //     }
-    //     return $this->success_Response(StudentResources::collection($students), "All students that belong to a specific trip fetching successfully", 200);
-
-    // }  
-    // //========================================================================================================================
+    }  
+    //========================================================================================================================
 }

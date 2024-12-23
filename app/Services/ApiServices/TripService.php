@@ -347,93 +347,6 @@ class TripService {
 
     
 
-    // //========================================================================================================================
-    // /**
-    //  * method to bind  trip with bus , student , supervisor , driver
-    //  * @param  $data
-    //  * @return /Illuminate\Http\JsonResponse if have an error
-    //  */
-    // public function bind($data) {
-    //     try { 
-
-    //         $Trip = Trip::find($data['trip']);
-
-    //         if(!$Trip){
-    //             throw new \Exception('Trip not found');
-    //         }
-
-
-    //         if($Trip == 'delivery' ){
-    //             if(count($data['buses']) > 1){
-    //                 throw new \Exception('رحلة التوصيل يجب أن يكون لديها باص واحد فقط');
-    //             }
-    //         }
-
-
-
-
-    //         if ($data['name'] == 'delivery' && $data['type'] == 'go') {
-    //             $existingTrips = Trip::where('name', 'delivery')
-    //                                  ->where('type', 'go')
-    //                                  ->pluck('id'); 
-            
-    //             $existingBusLink = BusTrip::whereIn('trip_id', $existingTrips)
-    //                                       ->where('bus_id', $data['bus_id']) 
-    //                                       ->exists();
-            
-    //                 if ($existingBusLink) {
-    //                     throw new \Exception('هذا الباص مرتبط مع رحلة توصيل  من نمط ذهاب سابقاً');
-    //                 }            
-
-    //         }else if ($data['name'] == 'delivery' && $data['type'] == 'back') {
-    //             $existingTrips = Trip::where('name', 'delivery')
-    //                                  ->where('type', 'back')
-    //                                  ->pluck('id'); 
-            
-    //             $existingBusLink = BusTrip::whereIn('trip_id', $existingTrips)
-    //                                       ->where('bus_id', $data['bus_id']) 
-    //                                       ->exists();
-            
-    //                 if ($existingBusLink) {
-    //                     throw new \Exception('هذا الباص مرتبط مع رحلة توصيل  من نمط إياب سابقاً');
-    //                 }
-    //         }
-
-
-
-
-    //         if ($data['name'] == 'delivery' && $data['type'] == 'go') {
-    //             $existingTrips = Trip::where('name', 'delivery')
-    //                                  ->where('type', 'go')
-    //                                  ->pluck('id'); 
-            
-    //             $existingBusLink = BusTrip::whereIn('trip_id', $existingTrips)
-    //                                       ->where('bus_id', $data['bus_id']) 
-    //                                       ->exists();
-            
-    //                 if ($existingBusLink) {
-    //                     throw new \Exception('هذا الباص مرتبط مع رحلة توصيل  من نمط ذهاب سابقاً');
-    //                 }            
-
-    //         }else if ($data['name'] == 'delivery' && $data['type'] == 'back') {
-    //             $existingTrips = Trip::where('name', 'delivery')
-    //                                  ->where('type', 'back')
-    //                                  ->pluck('id'); 
-            
-    //             $existingBusLink = BusTrip::whereIn('trip_id', $existingTrips)
-    //                                       ->where('bus_id', $data['bus_id']) 
-    //                                       ->exists();
-            
-    //                 if ($existingBusLink) {
-    //                     throw new \Exception('هذا الباص مرتبط مع رحلة توصيل  من نمط إياب سابقاً');
-    //                 }
-    //         }
-
-
-    //         return $Trip;
-    //     } catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 404);
-    //     } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with update Trip', 400);}
-    // }
 
 
 
@@ -445,53 +358,23 @@ class TripService {
 
 
 
-    // //========================================================================================================================
-    // public function list_of_students($trip_id, $latitude, $longitude)
-    // {
-    //     try {
+    //========================================================================================================================
+    public function update_trip_status($data,$trip_id)
+    {
+        try {
+            $Trip = Trip::find($trip_id);
+            if(!$Trip){
+                throw new \Exception('Trip not found');
+            }
+            $Trip->status = $data['status'] ?? $Trip->status;
+            $Trip->save(); 
 
-    //     $students = $this->All_Students_By_Trip($trip_id);
+            return $Trip;
 
-    //     $students = $students->sortBy(function ($student) use ($latitude, $longitude) {
-    //         return $student->distanceFrom($latitude, $longitude);
-    //     });
+        }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);   
+        } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with fetching Trip', 400);}
+    }
+    //========================================================================================================================
 
-    //     return $students;
-    
-    //     } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with fetching students', 400);}
-    // }
-    // //========================================================================================================================
-    // public function update_trip_status($data,$trip_id)
-    // {
-    //     try {
-    //         $Trip = Trip::find($trip_id);
-    //         if(!$Trip){
-    //             throw new \Exception('Trip not found');
-    //         }
-    //         $Trip->status = $data['status'] ?? $Trip->status;
-    //         $Trip->save(); 
-
-    //         return $Trip;
-
-    //     }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);   
-    //     } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with fetching Trip', 400);}
-    // }
-    // //========================================================================================================================
-    // public function All_students_belong_to_specific_trip($trip_id)
-    // {
-    //     try {
-    //         $Trip = Trip::find($trip_id);
-    //         if(!$Trip){
-    //             throw new \Exception('Trip not found');
-    //         }
-
-    //         $students = $this->All_Students_By_Trip($trip_id);
-
-    //         return $students;
-
-    //     }catch (\Exception $e) { Log::error($e->getMessage()); return $this->failed_Response($e->getMessage(), 400);   
-    //     } catch (\Throwable $th) { Log::error($th->getMessage()); return $this->failed_Response('Something went wrong with fetching Trip', 400);}
-    // }
-    // //========================================================================================================================
 
 }

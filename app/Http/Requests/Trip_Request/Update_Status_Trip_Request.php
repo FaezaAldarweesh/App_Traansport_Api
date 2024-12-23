@@ -56,7 +56,7 @@ class Update_Status_Trip_Request extends FormRequest
     public function messages(): array
     {
         return [ 
-            'boolean' => ' يجي أن تكون :attribute  قيمتها إما 1 أو 0',
+            'boolean' => ' يجب أن تكون :attribute  قيمتها إما 1 أو 0',
         ];
     }
 }
