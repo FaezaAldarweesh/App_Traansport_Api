@@ -82,7 +82,46 @@ class TripService {
                     throw new \Exception('تم إضافة هذا السائق إلى رحلة توصيل أخرى مسبقاً');
                 }
 
+            }elseif($data['name'] === 'school'){
+                //جلب كل الرحل المدرسية بتاريخ اليوم    
+                $existingTripsToday = Trip::where('name', 'school')
+                                          ->whereDate('created_at', now()->toDateString())
+                                          ->pluck('id');
+            
+                // التحقق من الطالب
+                $existingStudent = StudentTrip::whereIn('trip_id', $existingTripsToday)
+                                              ->where('student_id', $data['students'])
+                                              ->exists();
+                if ($existingStudent) {
+                    throw new \Exception('تم إضافة هذا الطالب إلى رحلة مدرسية أخرى بتاريخ اليوم');
+                }
+            
+                // التحقق من المشرف
+                $existingSupervisor = SupervisorTrip::whereIn('trip_id', $existingTripsToday)
+                                                    ->where('supervisor_id', $data['supervisors'])
+                                                    ->exists();
+                if ($existingSupervisor) {
+                    throw new \Exception('تم إضافة هذا المشرف إلى رحلة مدرسية أخرى بتاريخ اليوم');
+                }
+            
+                // التحقق من السائق
+                $existingDriver = DriverTrip::whereIn('trip_id', $existingTripsToday)
+                                            ->where('driver_id', $data['drivers'])
+                                            ->exists();
+                if ($existingDriver) {
+                    throw new \Exception('تم إضافة هذا السائق إلى رحلة مدرسية أخرى بتاريخ اليوم');
+                }
+
+                 // التحقق من الباص
+                $existingBus = Trip::where('name', 'school')
+                                    ->where('bus_id', $data['bus_id'])
+                                    ->whereDate('created_at', now()->toDateString())
+                                    ->exists();
+                if ($existingBus) {
+                    throw new \Exception('تم استخدام هذا الباص في رحلة مدرسية أخرى بتاريخ اليوم');
+                }
             }
+            
 
             $bus = Bus::find($data['bus_id']);
 
@@ -178,6 +217,44 @@ class TripService {
                                             ->exists();
                 if ($existingDriver) {
                     throw new \Exception('تم إضافة هذا السائق إلى رحلة توصيل أخرى مسبقاً');
+                }
+            }elseif($data['name'] === 'school'){
+                //جلب كل الرحل المدرسية بتاريخ اليوم    
+                $existingTripsToday = Trip::where('name', 'school')
+                                          ->whereDate('created_at', now()->toDateString())
+                                          ->pluck('id');
+            
+                // التحقق من الطالب
+                $existingStudent = StudentTrip::whereIn('trip_id', $existingTripsToday)
+                                              ->where('student_id', $data['students'])
+                                              ->exists();
+                if ($existingStudent) {
+                    throw new \Exception('تم إضافة هذا الطالب إلى رحلة مدرسية أخرى بتاريخ اليوم');
+                }
+            
+                // التحقق من المشرف
+                $existingSupervisor = SupervisorTrip::whereIn('trip_id', $existingTripsToday)
+                                                    ->where('supervisor_id', $data['supervisors'])
+                                                    ->exists();
+                if ($existingSupervisor) {
+                    throw new \Exception('تم إضافة هذا المشرف إلى رحلة مدرسية أخرى بتاريخ اليوم');
+                }
+            
+                // التحقق من السائق
+                $existingDriver = DriverTrip::whereIn('trip_id', $existingTripsToday)
+                                            ->where('driver_id', $data['drivers'])
+                                            ->exists();
+                if ($existingDriver) {
+                    throw new \Exception('تم إضافة هذا السائق إلى رحلة مدرسية أخرى بتاريخ اليوم');
+                }
+
+                 // التحقق من الباص
+                $existingBus = Trip::where('name', 'school')
+                                    ->where('bus_id', $data['bus_id'])
+                                    ->whereDate('created_at', now()->toDateString())
+                                    ->exists();
+                if ($existingBus) {
+                    throw new \Exception('تم استخدام هذا الباص في رحلة مدرسية أخرى بتاريخ اليوم');
                 }
             }
     
